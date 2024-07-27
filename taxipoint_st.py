@@ -2,15 +2,19 @@ import streamlit as st
 import taxipoint
 from sqlalchemy import create_engine
 import time
+import os
 
 import plotly.io as pio
 from PIL import Image
 
 # # #
+os.environ['TZ'] = 'Europe/Helsinki'
+time.tzset()
 
 db_str = st.secrets["db_str"]
 sql_engine = create_engine(db_str)
 
+# # #
 
 st.markdown(
         f"""

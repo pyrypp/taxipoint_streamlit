@@ -9,7 +9,7 @@ from PIL import Image
 
 # # #
 os.environ['TZ'] = 'Europe/Helsinki'
-time.tzset()
+# time.tzset()
 
 db_str = st.secrets["db_str"]
 sql_engine = create_engine(db_str)
@@ -39,7 +39,7 @@ container2 = st.empty()
 
 def get_loading_image():
     image = Image.open("plot.png")
-    scale = 0.2
+    scale = 0.15
     w = int(3500 * scale)
     h = int(1500 * scale)
     image = image.resize((w,h))
@@ -47,7 +47,7 @@ def get_loading_image():
     data = image.getdata()
     new_data = []
     for item in data:
-        new_data.append((item[0], item[1], item[2], 128))
+        new_data.append((item[0], item[1], item[2], 100))
     loading_image.putdata(new_data)
     return loading_image
 

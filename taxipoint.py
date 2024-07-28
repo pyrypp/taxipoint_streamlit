@@ -17,20 +17,26 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
 
-
+def time_now_15():
+    return pd.Timestamp(dt.datetime.now()).floor("15min")
 
 def get_sql_table(table, sql_engine):
     conn = sql_engine.connect()
+
+    if table == "rides":
+        t_now = time_now_15() - dt.timedelta(days=1)
+        date_f = str(t_now.date())
+        df = pd.read_sql(f"SELECT * FROM {table} WHERE date > '{date_f}'", con=conn)
+
     df = pd.read_sql(f"SELECT * FROM {table}", con=conn)
+
+
     try:
         df = df.sort_values(by=["date", "time"], ascending=True)
     except:
         None
     conn.close()
     return df
-
-def time_now_15():
-    return pd.Timestamp(dt.datetime.now()).floor("15min")
 
 def get_ride_data(x_time=time_now_15(), grouper_freq="15min", savgol=9, sql_engine=None):
     """

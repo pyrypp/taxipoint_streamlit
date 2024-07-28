@@ -9,7 +9,7 @@ from PIL import Image
 
 # # #
 os.environ['TZ'] = 'Europe/Helsinki'
-# time.tzset()
+time.tzset()
 
 db_str = st.secrets["db_str"]
 sql_engine = create_engine(db_str)

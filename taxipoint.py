@@ -117,18 +117,14 @@ def select_color(value):
         return None
 
 def round_to_next_series_hour(datetime_value):
-    # Extract the hour from the datetime
     hour = datetime_value.hour
     
-    # Determine the next value in the series [0, 3, 6, 9, 12]
     next_hour = ((hour // 3) + 1) * 3
     
-    # If next_hour is 15 or more, roll over to the next day at 0 hour
     if next_hour >= 24:
         next_hour = 0
         datetime_value += pd.Timedelta(days=1)
     
-    # Create a new datetime value with the next hour in series
     rounded_datetime = datetime_value.replace(hour=next_hour)
     
     return rounded_datetime
@@ -257,7 +253,8 @@ def print_forecast(preds, rides_df_, t, sql_engine):
             ticktext[i] = ticktext[i] + f"<br>{dt_.day}.{dt_.month}"
 
     # first date
-    ticktext[0] = ticktext[0] + f"<br>{tickvals[0].day}.{tickvals[0].month}"
+    if len(ticktext[0]) <= 5:
+        ticktext[0] = ticktext[0] + f"<br>{tickvals[0].day}.{tickvals[0].month}"
 
     fig.update_layout(
                     # width=1800, 

@@ -37,19 +37,21 @@ st.markdown(
 container = st.empty()
 container2 = st.empty()
 
-###
-image = Image.open("plot.png")
-scale = 0.2
-w = int(3500 * scale)
-h = int(1500 * scale)
-image = image.resize((w,h))
-loading_image = image.convert("RGBA")
-data = image.getdata()
-new_data = []
-for item in data:
-    new_data.append((item[0], item[1], item[2], 128))
-loading_image.putdata(new_data)
-###
+def get_loading_image():
+    image = Image.open("plot.png")
+    scale = 0.2
+    w = int(3500 * scale)
+    h = int(1500 * scale)
+    image = image.resize((w,h))
+    loading_image = image.convert("RGBA")
+    data = image.getdata()
+    new_data = []
+    for item in data:
+        new_data.append((item[0], item[1], item[2], 128))
+    loading_image.putdata(new_data)
+    return loading_image
+
+loading_image = get_loading_image()
 
 with st.spinner("Loading..."):
     container2.empty()
@@ -70,3 +72,14 @@ with st.spinner("Loading..."):
 with container2:
     st.image("plot.png", use_column_width ="always")
 
+
+st.write("---")
+
+st.markdown("""
+Tämä palvelu tarjoaa ennusteen Helsinki-Vantaan lentokentän taksiaseman kysynnästä. Ennusteet perustuvat Taxipointin historialliseen dataan. Palvelu on tarkoitettu antamaan yleiskuvaa taksikysynnän vaihteluista eri ajankohtina.
+
+**Huomio:** Tämä projekti on harrasteprojekti, eikä virallinen palvelu. Ennusteet eivät ole taattuja. Suosittelen käyttäjiä käyttämään palvelua vain suuntaa-antavana tietona.
+
+
+\- Pyry Pohjanoksa
+""")

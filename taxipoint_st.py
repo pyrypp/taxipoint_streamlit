@@ -9,7 +9,7 @@ from PIL import Image
 
 # # #
 os.environ['TZ'] = 'Europe/Helsinki'
-# time.tzset()
+time.tzset()
 
 db_str = st.secrets["db_str"]
 sql_engine = create_engine(db_str)
@@ -30,7 +30,7 @@ st.markdown(
     )
 
 st.markdown(
-    "<h2 style='text-align: center; color: black;'>Helsinki-Vantaa -lentoasema <br>Taksikysynnän ennuste</h2>", 
+    "<h2 style='text-align: center; color: black;'>Helsinki-Vantaan lentoasema <br>Taksikysynnän ennuste</h2>", 
     unsafe_allow_html=True
 )
 
@@ -76,9 +76,9 @@ with container2:
 st.write("---")
 
 st.markdown("""
-Tämä palvelu tarjoaa ennusteen Helsinki-Vantaan lentokentän taksiaseman kysynnästä. Ennusteet perustuvat Taxipointin historialliseen dataan. Palvelu on tarkoitettu antamaan yleiskuvaa taksikysynnän vaihteluista eri ajankohtina.
+Tämä palvelu tarjoaa ennusteen Helsinki-Vantaan lentokentän taksiaseman kysynnästä. Ennusteet perustuvat Taxipointin historiallista dataa hyödyntävään tekoälymalliin. Palvelu on tarkoitettu antamaan yleiskuvaa taksikysynnän vaihteluista eri ajankohtina.
 
-**Huomio:** Tämä projekti on harrasteprojekti, eikä virallinen palvelu. Ennusteet eivät ole taattuja. Suosittelen käyttäjiä käyttämään palvelua vain suuntaa-antavana tietona.
+**Huomio:** Tämä projekti on harrasteprojekti, eikä virallinen palvelu. Ennusteet eivät ole taattuja. Suosittelen käyttämään ennustetta vain suuntaa-antavana tietona.
 
 
 \- Pyry Pohjanoksa

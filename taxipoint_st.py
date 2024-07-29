@@ -30,11 +30,10 @@ st.markdown(
     )
 
 st.markdown(
-    "<h2 style='text-align: center; color: black;'>Helsinki-Vantaan lentoasema <br>Taksikysynnän ennuste</h2>", 
+    "<h2 style='text-align: center; color: black;'>Helsinki-Vantaan lentoasema  <br>Taksikysynnän ennuste</h2>", 
     unsafe_allow_html=True
 )
 
-container = st.empty()
 container2 = st.empty()
 
 def get_loading_image():
@@ -54,6 +53,7 @@ def get_loading_image():
 loading_image = get_loading_image()
 
 with st.spinner("Loading..."):
+    container = st.empty()
     container2.empty()
     with container:
         st.image(loading_image, use_column_width ="always")
@@ -83,3 +83,32 @@ Tämä palvelu tarjoaa ennusteen Helsinki-Vantaan lentokentän taksiaseman kysyn
 
 \- Pyry Pohjanoksa
 """)
+
+st.write("---")
+
+col1, col2 = st.columns(2)
+with col1:  
+    with st.form("feedback_form", clear_on_submit=True):
+        st.write("Palautelaatikko")
+
+        # arvosana = st.select_slider(
+        #     "Anna arvosana", 
+        #     options=["⭐","⭐⭐","⭐⭐⭐","⭐⭐⭐⭐","⭐⭐⭐⭐⭐"], 
+        #     )
+
+        arvosana = st.radio(
+            "Anna arvosana", 
+            options=["⭐","⭐⭐","⭐⭐⭐","⭐⭐⭐⭐","⭐⭐⭐⭐⭐"], 
+            horizontal=True,
+            index=None
+            )
+        if arvosana != None:
+            arvosana = len(arvosana)
+
+        teksti = st.text_input(label="label", placeholder="Vapaa sana...", max_chars=256, label_visibility="hidden")
+
+        st.write("")
+        submitted = st.form_submit_button("Lähetä")
+        if submitted:
+            st.write("Palaute lähetetty. Kiitos!")
+            taxipoint.save_to_sql_feedback(arvosana, teksti, sql_engine)

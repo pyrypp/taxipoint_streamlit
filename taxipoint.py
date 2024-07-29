@@ -16,6 +16,9 @@ import plotly.express as px
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
+def save_to_sql_feedback(arvosana, teksti, sql_engine):
+    df = pd.DataFrame({"arvosana":[arvosana], "teksti":[teksti]})
+    df.to_sql("feedback",sql_engine, if_exists='append', index=False, dtype={"arvosana":Integer, "teksti":VARCHAR(255)})
 
 def time_now_15():
     return pd.Timestamp(dt.datetime.now()).floor("15min")
@@ -280,7 +283,7 @@ def print_forecast(preds, rides_df_, t, sql_engine):
     )
 
     y_range_max = max(all_dfs["sum"].max(), rides_df_["sum"].max()) + 5
-    fig.update_yaxes(range=[-3,y_range_max])
+    fig.update_yaxes(range=[0,y_range_max])
 
     fig.add_vline(x=t, line_width=2, line_color="black", opacity=1)
 

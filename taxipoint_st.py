@@ -16,6 +16,11 @@ sql_engine = create_engine(db_str)
 
 # # #
 
+if 'form_submitted' not in st.session_state:
+    st.session_state['form_submitted'] = False
+
+###
+
 st.markdown(
         f"""
 <style>
@@ -52,22 +57,23 @@ def get_loading_image():
 
 loading_image = get_loading_image()
 
-with st.spinner("Loading..."):
-    container = st.empty()
-    container2.empty()
-    with container:
-        st.image(loading_image, use_column_width ="always")
+if not st.session_state['form_submitted']:
+    with st.spinner("Loading..."):
+        container = st.empty()
+        container2.empty()
+        with container:
+            st.image(loading_image, use_column_width ="always")
 
-    preds_df = taxipoint.get_sql_table("preds", sql_engine)
-    preds = preds_df["y"].values
-    rides_df = taxipoint.get_ride_data(sql_engine = sql_engine)
-    t = taxipoint.time_now_15()
+        preds_df = taxipoint.get_sql_table("preds", sql_engine)
+        preds = preds_df["y"].values
+        rides_df = taxipoint.get_ride_data(sql_engine = sql_engine)
+        t = taxipoint.time_now_15()
 
-    fig = taxipoint.print_forecast(preds, rides_df, t, sql_engine=sql_engine)
+        fig = taxipoint.print_forecast(preds, rides_df, t, sql_engine=sql_engine)
 
-    container.empty()
+        container.empty()
 
-    im = pio.write_image(fig, "plot.png", width=6*200, height=2.5*200, scale=3)
+        im = pio.write_image(fig, "plot.png", width=6*200, height=2.5*200, scale=3)
 
 with container2:
     st.image("plot.png", use_column_width ="always")
@@ -109,6 +115,8 @@ with col1:
 
         st.write("")
         submitted = st.form_submit_button("Lähetä")
+        st.session_state['form_submitted'] = True
         if submitted:
-            st.write("Palaute lähetetty. Kiitos!")
             taxipoint.save_to_sql_feedback(arvosana, teksti, sql_engine)
+            st.write("Palaute lähetetty. Kiitos!")
+            st.session_state['form_submitted'] = False

@@ -17,7 +17,8 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
 def save_to_sql_feedback(arvosana, teksti, sql_engine):
-    df = pd.DataFrame({"arvosana":[arvosana], "teksti":[teksti]})
+    dt_ = dt.datetime.now()
+    df = pd.DataFrame({"datetime":[dt_],"arvosana":[arvosana], "teksti":[teksti]})
     df.to_sql("feedback",sql_engine, if_exists='append', index=False, dtype={"arvosana":Integer, "teksti":VARCHAR(255)})
 
 def time_now_15():

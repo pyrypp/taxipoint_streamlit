@@ -174,9 +174,6 @@ def print_forecast(preds, rides_df_, t, sql_engine):
 
     df['sum'] = df['sum'].where(df['over'], np.nan)
     df['group'] = df['group'].where(df['over'], np.nan)
-    # # peak middle point
-    # df_gp = df.groupby("group")["y"].max().reset_index().rename(columns={"dt":"dt_mean"})
-    # df = df.merge(df_gp, on="group", how="left")
 
 
     df = df.bfill()

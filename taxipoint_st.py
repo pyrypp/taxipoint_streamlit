@@ -1,8 +1,8 @@
 import streamlit as st
 import taxipoint
 from sqlalchemy import create_engine
-import time
 import os
+import time
 
 import plotly.io as pio
 from PIL import Image
@@ -16,10 +16,10 @@ sql_engine = create_engine(db_str)
 
 # # #
 
-if 'form_submitted' not in st.session_state:
-    st.session_state['form_submitted'] = False
+if 'first run' not in st.session_state:
+    st.session_state['first run'] = True
 
-###
+# # #
 
 st.markdown(
         f"""
@@ -39,7 +39,10 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-container2 = st.empty()
+
+# # #
+
+container_plot = st.empty()
 
 def get_loading_image():
     image = Image.open("plot.png")
@@ -55,13 +58,15 @@ def get_loading_image():
     loading_image.putdata(new_data)
     return loading_image
 
-loading_image = get_loading_image()
+if st.session_state['first run']:
+    loading_image = get_loading_image()
 
-if not st.session_state['form_submitted']:
+
+if st.session_state['first run']:
     with st.spinner("Loading..."):
-        container = st.empty()
-        container2.empty()
-        with container:
+        container_loading_image = st.empty()
+        container_plot.empty()
+        with container_loading_image:
             st.image(loading_image, use_column_width ="always")
 
         preds_df = taxipoint.get_sql_table("preds", sql_engine)
@@ -71,11 +76,11 @@ if not st.session_state['form_submitted']:
 
         fig = taxipoint.print_forecast(preds, rides_df, t, sql_engine=sql_engine)
 
-        container.empty()
-
         im = pio.write_image(fig, "plot.png", width=6*200, height=2.5*200, scale=3)
 
-with container2:
+        container_loading_image.empty()
+
+with container_plot:
     st.image("plot.png", use_column_width ="always")
 
 
@@ -97,26 +102,22 @@ with col1:
     with st.form("feedback_form", clear_on_submit=True):
         st.write("Palautelaatikko")
 
-        # arvosana = st.select_slider(
+        arvosana = st.feedback("stars")
+
+        # arvosana = st.radio(
         #     "Anna arvosana", 
         #     options=["⭐","⭐⭐","⭐⭐⭐","⭐⭐⭐⭐","⭐⭐⭐⭐⭐"], 
+        #     horizontal=True,
+        #     index=None
         #     )
-
-        arvosana = st.radio(
-            "Anna arvosana", 
-            options=["⭐","⭐⭐","⭐⭐⭐","⭐⭐⭐⭐","⭐⭐⭐⭐⭐"], 
-            horizontal=True,
-            index=None
-            )
         if arvosana != None:
-            arvosana = len(arvosana)
+            # arvosana = len(arvosana)
+            arvosana += 1
 
         teksti = st.text_input(label="label", placeholder="Vapaa sana...", max_chars=256, label_visibility="hidden")
 
-        st.write("")
         submitted = st.form_submit_button("Lähetä")
-        st.session_state['form_submitted'] = True
+        st.session_state['first run'] = False
         if submitted:
             taxipoint.save_to_sql_feedback(arvosana, teksti, sql_engine)
             st.write("Palaute lähetetty. Kiitos!")
-            st.session_state['form_submitted'] = False

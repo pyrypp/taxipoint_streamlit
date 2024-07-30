@@ -112,6 +112,6 @@ with col1:
 
         st.session_state['first run'] = False
         if submitted:
-            with st.spinner():
+            with st.spinner("Odota..."):
                 taxipoint.save_to_sql_feedback(arvosana, teksti, sql_engine)
                 st.write("Palaute lähetetty. Kiitos!")

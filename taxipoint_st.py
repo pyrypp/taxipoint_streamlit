@@ -103,21 +103,15 @@ with col1:
         st.write("Palautelaatikko")
 
         arvosana = st.feedback("stars")
-
-        # arvosana = st.radio(
-        #     "Anna arvosana", 
-        #     options=["⭐","⭐⭐","⭐⭐⭐","⭐⭐⭐⭐","⭐⭐⭐⭐⭐"], 
-        #     horizontal=True,
-        #     index=None
-        #     )
         if arvosana != None:
-            # arvosana = len(arvosana)
             arvosana += 1
 
         teksti = st.text_input(label="label", placeholder="Vapaa sana...", max_chars=256, label_visibility="hidden")
 
         submitted = st.form_submit_button("Lähetä")
+
         st.session_state['first run'] = False
         if submitted:
-            taxipoint.save_to_sql_feedback(arvosana, teksti, sql_engine)
-            st.write("Palaute lähetetty. Kiitos!")
+            with st.spinner():
+                taxipoint.save_to_sql_feedback(arvosana, teksti, sql_engine)
+                st.write("Palaute lähetetty. Kiitos!")

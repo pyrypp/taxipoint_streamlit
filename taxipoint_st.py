@@ -70,11 +70,12 @@ try:
             with container_loading_image:
                 st.image(loading_image, use_column_width ="always")
 
+            t = taxipoint.time_now_15()
             preds_df = taxipoint.get_sql_table("preds", sql_engine)
+            preds_df = preds_df[preds_df["datetime"]>=t]
             preds = preds_df["y"].values
             rides_df = taxipoint.get_ride_data(sql_engine = sql_engine)
-            t = taxipoint.time_now_15()
-
+            
             fig = taxipoint.print_forecast(preds, rides_df, t, sql_engine=sql_engine)
 
             im = pio.write_image(fig, "plot.png", width=6*200, height=2.5*200, scale=3)

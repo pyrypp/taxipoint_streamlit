@@ -19,12 +19,6 @@ try:
     db_str = st.secrets["db_str"]
     sql_engine = create_engine(db_str)
 
-    # # #
-
-    if 'first run' not in st.session_state:
-        st.session_state['first run'] = True
-
-    # # #
 
     st.markdown(
             f"""
@@ -52,7 +46,6 @@ try:
         im = Image.open(BytesIO(response.content))
         st.image(im, use_column_width ="always")
 
-
     st.write("---")
 
     st.markdown("""
@@ -69,7 +62,7 @@ try:
     col1, col2 = st.columns(2)
     with col1:  
         with st.form("feedback_form", clear_on_submit=True):
-            st.subheader("Palautelaatikko")
+            st.write("Palautelaatikko")
 
             arvosana = st.feedback("stars")
             if arvosana != None:
@@ -79,7 +72,6 @@ try:
 
             submitted = st.form_submit_button("Lähetä")
 
-            st.session_state['first run'] = False
             if submitted:
                 with st.spinner("Odota..."):
                     taxipoint.save_to_sql_feedback(arvosana, teksti, sql_engine)
@@ -87,8 +79,6 @@ try:
     
     st.write("---")
 
-    st.subheader("Historia")
-    st.write("")
 
     st.markdown("""
         **v1.1.0** (16.8.2024)  

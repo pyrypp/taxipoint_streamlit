@@ -74,7 +74,7 @@ try:
 
             if submitted:
                 with st.spinner("Odota..."):
-                    taxipoint.save_to_sql_feedback(arvosana, teksti, sql_engine)
+                    taxiplot.save_to_sql_feedback(arvosana, teksti, sql_engine)
                     st.write("Palaute lähetetty. Kiitos!")
     
     st.write("---")

@@ -235,7 +235,7 @@ def print_forecast(preds, rides_df_, t, sql_engine):
             fillgradient=dict(type="vertical", colorscale=colorscales[color_level]),
             line_shape="spline"
         ))
-        if df_to_plot["dt_max"].max() != df_to_plot["dt"][0]:
+        if df_to_plot["dt_max"].max() != df_to_plot["dt"][0] and df_to_plot["dt_max"].max() != df_to_plot["dt"][-1]:
             fig.add_annotation(x=df_to_plot["dt_max"].max(), y=df_to_plot["y"].max()+2, text=str(df_to_plot["sum"][0]), showarrow=False, font=dict(size=16))
 
 

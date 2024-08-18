@@ -46,6 +46,12 @@ try:
         im = Image.open(BytesIO(response.content))
         st.image(im, use_column_width ="always")
 
+    st.write("VAIN MENEVÄ:")
+    with st.spinner("Loading..."):
+        response = requests.get("https://taxipoint-pp.s3.eu-north-1.amazonaws.com/plot_sum_me.png", stream=True)
+        im = Image.open(BytesIO(response.content))
+        st.image(im, use_column_width ="always")
+
     st.write("---")
 
     st.markdown("""

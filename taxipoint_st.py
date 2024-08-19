@@ -41,16 +41,22 @@ try:
 
     # # #
 
-    with st.spinner("Loading..."):
-        response = requests.get("https://taxipoint-pp.s3.eu-north-1.amazonaws.com/plot_sum.png", stream=True)
-        im = Image.open(BytesIO(response.content))
-        st.image(im, use_column_width ="always")
 
-    st.write("VAIN MENEVÄ:")
-    with st.spinner("Loading..."):
-        response = requests.get("https://taxipoint-pp.s3.eu-north-1.amazonaws.com/plot_sum_me.png", stream=True)
-        im = Image.open(BytesIO(response.content))
-        st.image(im, use_column_width ="always")
+    r_button = st.radio(label="label",options=["KAIKKI", "VAIN MENEVÄ"], label_visibility="hidden", horizontal=True)
+
+    if r_button=="KAIKKI":
+        with st.spinner("Loading..."):
+            response = requests.get("https://taxipoint-pp.s3.eu-north-1.amazonaws.com/plot_sum.png", stream=True)
+            im = Image.open(BytesIO(response.content))
+            st.image(im, use_column_width ="always")
+
+    if r_button=="VAIN MENEVÄ":
+        with st.spinner("Loading..."):
+            response = requests.get("https://taxipoint-pp.s3.eu-north-1.amazonaws.com/plot_sum_me.png", stream=True)
+            im = Image.open(BytesIO(response.content))
+            st.image(im, use_column_width ="always")
+
+
 
     st.write("---")
 
@@ -85,6 +91,14 @@ try:
     
     st.write("---")
 
+    st.markdown("""
+        **v1.2.0** (19.8.2024)  
+
+        Uusi toiminto:
+        Sovelluksesta löytyy nyt ennuste Menevän taksijonolle erikseen.
+    """)
+
+    st.write("")
 
     st.markdown("""
         **v1.1.0** (16.8.2024)  

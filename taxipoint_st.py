@@ -110,7 +110,7 @@ try:
     st.write("")
 
     st.markdown("""
-        **v1.0.0** - (12.8.2024)  
+        **v1.0.0** (12.8.2024)  
 
         Sovelluksen ensimmäinen julkinen versio. Kuvaaja näyttää kysynnän edelliseltä 24 tunnilta ja ennusteen seuraavalle 24 tunnille. Ruuhkahuiput on väritetty. Ruuhkahuippujen yhteydessä on luku, joka kertoo, montako asiakasta ruuhkahuipussa on.
 

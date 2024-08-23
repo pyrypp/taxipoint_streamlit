@@ -92,6 +92,15 @@ try:
     st.write("---")
 
     st.markdown("""
+        **v1.2.1** (21.8.2024)  
+
+        Päivitys:
+        Huippujen laskentalogiikkaa on muutettu vertailukelpoisemmaksi.
+    """)
+
+    st.write("")
+
+    st.markdown("""
         **v1.2.0** (19.8.2024)  
 
         Uusi toiminto:

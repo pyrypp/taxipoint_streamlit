@@ -1,5 +1,7 @@
 try:
     import streamlit as st
+    a = 0/0
+
     import taxiplot
     from sqlalchemy import create_engine
     import os
@@ -127,5 +129,5 @@ try:
     """)
 
 except:
-    st.error("Palvelu on tällä hetkellä pois käytöstä! Pahoittelut.")
+    st.error("Palvelun ilmainen käyttöjakso on päättynyt. Kiitos käytöstä!")
 

@@ -35,7 +35,7 @@ time.tzset()
 
 st.set_page_config(layout="wide")
 
-st.error("Palvelun ylläpito on valitettavasti päättynyt.")
+st.error("Palvelun ylläpito on valitettavasti päättynyt. // The service has unfortunately been discontinued.")
 
 st.markdown(
     "<h2 style='text-align: center; color: black;'>Helsinki-Vantaan lentoasema  <br>Taksikysynnän ennuste</h2>", 

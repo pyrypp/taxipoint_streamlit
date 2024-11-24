@@ -1,9 +1,8 @@
 try:
     import streamlit as st
-    a = 0/0
 
     import taxiplot
-    from sqlalchemy import create_engine
+    # from sqlalchemy import create_engine
     import os
     import time
     import requests
@@ -18,8 +17,8 @@ try:
     os.environ['TZ'] = 'Europe/Helsinki'
     time.tzset()
 
-    db_str = st.secrets["db_str"]
-    sql_engine = create_engine(db_str)
+    # db_str = st.secrets["db_str"]
+    # sql_engine = create_engine(db_str)
 
 
     st.markdown(
@@ -35,6 +34,8 @@ try:
             unsafe_allow_html=True,
         )
 
+    st.error("Palvelun ylläpito on valitettavasti päättynyt.")
+
     st.markdown(
         "<h2 style='text-align: center; color: black;'>Helsinki-Vantaan lentoasema  <br>Taksikysynnän ennuste</h2>", 
         unsafe_allow_html=True
@@ -48,15 +49,17 @@ try:
 
     if r_button=="KAIKKI":
         with st.spinner("Loading..."):
-            response = requests.get("https://taxipoint-pp.s3.eu-north-1.amazonaws.com/plot_sum.png", stream=True)
-            im = Image.open(BytesIO(response.content))
-            st.image(im, use_column_width ="always")
+            # response = requests.get("https://taxipoint-pp.s3.eu-north-1.amazonaws.com/plot_sum.png", stream=True)
+            # im = Image.open(BytesIO(response.content))
+            with Image.open("./plots/plot_sum.png") as im:
+                st.image(im, use_column_width ="always")
 
     if r_button=="VAIN MENEVÄ":
         with st.spinner("Loading..."):
-            response = requests.get("https://taxipoint-pp.s3.eu-north-1.amazonaws.com/plot_sum_me.png", stream=True)
-            im = Image.open(BytesIO(response.content))
-            st.image(im, use_column_width ="always")
+            # response = requests.get("https://taxipoint-pp.s3.eu-north-1.amazonaws.com/plot_sum_me.png", stream=True)
+            # im = Image.open(BytesIO(response.content))
+            with Image.open("./plots/plot_sum_me.png") as im:
+                st.image(im, use_column_width ="always")
 
 
 
@@ -88,7 +91,7 @@ try:
 
             if submitted:
                 with st.spinner("Odota..."):
-                    taxiplot.save_to_sql_feedback(arvosana, teksti, sql_engine)
+                    # taxiplot.save_to_sql_feedback(arvosana, teksti, sql_engine)
                     st.write("Palaute lähetetty. Kiitos!")
     
     st.write("---")
